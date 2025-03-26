@@ -1,0 +1,43 @@
+{
+    "cSpell.words": [
+        "dfmsbrjmq"
+    ],
+    "better-comments.tags": [
+  {
+    "tag": "!",
+    "color": "#FF5555", // A soft red that fits Dracula’s vibrant style
+    "strikethrough": false,
+    "underline": false,
+    "backgroundColor": "transparent",
+    "bold": true,
+    "italic": false
+  },
+  {
+    "tag": "TODO",
+    "color": "#98C379", // A muted green, aligning with OneDark’s tones
+    "strikethrough": false,
+    "underline": false,
+    "backgroundColor": "transparent",
+    "bold": false,
+    "italic": false
+  },
+  {
+    "tag": "FIXME",
+    "color": "#E5C07B", // A subtle yellow, blending with both themes
+    "strikethrough": false,
+    "underline": false,
+    "backgroundColor": "transparent",
+    "bold": true,
+    "italic": false
+  },
+  {
+    "tag": "*",
+    "color": "#56B6C2", // A cyan that complements Dracula and OneDark
+    "strikethrough": false,
+    "underline": false,
+    "backgroundColor": "transparent",
+    "bold": false,
+    "italic": true
+  }
+]
+}
