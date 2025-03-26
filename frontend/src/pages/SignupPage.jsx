@@ -1,20 +1,35 @@
 import React, { useState } from 'react'
-// import { useAuthStore } from '../store/useAuthStore'
-import { MessageSquareShare, User } from 'lucide-react'
+import { useAuthStore } from '../store/useAuthStore'
+import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquareShare, User, UserPlus } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import AuthImagePattern from '../components/AuthImagePattern'
+import toast from 'react-hot-toast'
+
+
 const SignupPage = () => {
-  // const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
   })
-  // const {signup, isSigningUp } = useAuthStore();
+  const {signup, isSigningUp } = useAuthStore();
 
-  // const validateForm = () => {}
+  const validateForm = () => {
+    if(!formData.fullName.trim()) return toast.error('Full name is required')
+    if(!formData.email.trim()) return toast.error('Email is required')
+    if(!/^\S+@\S+\.\S+$/.test(formData.email)) return toast.error('Invalid email address')
+    if(!formData.password.trim()) return toast.error('Password is required')
+    if(formData.password.length < 6) return toast.error('Password must be at least 6 characters long')
+
+      return true;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const isValid = validateForm();
+    if(isValid === true) signup(formData);
   }
 
   return (
@@ -44,7 +59,7 @@ const SignupPage = () => {
                   <span className="label-text font-medium">Full Name</span>
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <div className="absolute inset-y-0 start-0 pl-3 flex items-center z-10 pointer-events-none">
                     <User className='size-5 text-base-content/60'/>
                   </div>
                   <input
@@ -55,11 +70,79 @@ const SignupPage = () => {
                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                   />
                 </div>
+              </div>
+
+              <div className="form-control">
+                <label htmlFor="" className="label">
+                  <span className="label-text font-medium">Email</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 pl-3 flex items-center z-10 pointer-events-none">
+                    <Mail className='size-5 text-base-content/60'/>
+                  </div>
+                  <input
+                   type='email'
+                   className={`input input-bordered w-full pl-10`}
+                   placeholder='Enter your email'
+                   value={formData.email}
+                   onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  />
                 </div>
-              </form>          
+              </div>
+
+              <div className="form-control">
+                <label htmlFor="" className="label">
+                  <span className="label-text font-medium">Password</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 pl-3 flex items-center z-10 pointer-events-none">
+                    <Lock className='size-5 text-base-content/60'/>
+                  </div>
+                  <input
+                   type={showPassword ? 'text' : 'password'}
+                   className={`input input-bordered w-full pl-10`}
+                   placeholder='Enter your password'
+                   value={formData.password}
+                   onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  />
+                  <button type="button" 
+                  className='absolute inset-y-0 right-0 pr-3 flex items-center z-10'
+                  onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword? (
+                      <EyeOff className='size-5 text-base-content/60'/>
+                    ) : (
+                      <Eye className='size-5 text-base-content/60'/>
+                    )}
+
+                  </button>
+                </div>
+              </div>
+
+              <button type='submit' className='btn btn-primary w-full' disabled={isSigningUp}>
+                {isSigningUp ?(
+                  <>
+                   <Loader2 className='size-5 animate-spin mr-2'/>
+                   Signing up...
+                  </>
+                ) : (
+                    "Create Account"
+                  )}
+              </button>
+
+            </form>  
+
+            <div className="text-center">
+              <p className="text-base-content/60">Already have an account? <Link to="/login" className='link text-primary'>Sign in</Link></p>
+            </div>        
         </div>
-        
       </div>
+
+      {/* right side */}
+
+      <AuthImagePattern
+      title="Welcome to Whispr"
+      subtitle="Your new home for sharing and connecting"
+      />
    
     </div>
   )
